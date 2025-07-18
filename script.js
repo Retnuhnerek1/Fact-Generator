@@ -1,5 +1,3 @@
-document.getElementById('factDisplay').textContent = facts[randomIndex] || "No facts available for this topic.";
-
 const factData = {
   science_space: [
     "Space is completely silent. Because space is a vacuum with no air or molecules to carry sound waves, you wouldn't hear a thing.",
@@ -116,50 +114,12 @@ function generateFact() {
 }
 
 function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-  const isDarkMode = document.body.classList.contains('dark-mode');
-  localStorage.setItem('darkMode', isDarkMode);
-
-  const toggle = document.getElementById('darkModeToggle');
-  toggle.textContent = isDarkMode ? '☀️' : '🌙';
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
-  const iconSpan = document.getElementById("mode-icon");
-
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    if (iconSpan) iconSpan.textContent = "🌙";
-  } else {
-    document.body.classList.remove("dark-mode");
-    if (iconSpan) iconSpan.textContent = "☀️";
-  }
-});
-
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
-    });
-  });
-});
-
-function toggleDarkMode() {
   const body = document.body;
   const icon = document.getElementById("mode-icon");
   const isDark = body.classList.toggle("dark-mode");
 
   icon.textContent = isDark ? "☀️" : "🌙";
   localStorage.setItem("theme", isDark ? "dark" : "light");
-}
-
-  // Optional: Save the theme preference
-  localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -173,5 +133,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.remove("dark-mode");
     if (icon) icon.textContent = "🌙";
   }
-});
 
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+});
