@@ -18,7 +18,7 @@
       --shadow: rgba(0, 0, 0, 0.1);
     }
 
-    .Theme {
+    .dark-mode {
       --bg-color: #1a1a1a;
       --text-color: #e0e0e0;
       --button-bg: #ff4444;
@@ -52,7 +52,7 @@
       text-align: center;
     }
 
-    #ThemeToggle {
+    #darkModeToggle {
       background: none;
       border: none;
       font-size: 1.5em;
@@ -64,7 +64,7 @@
       right: 0;
     }
 
-    #ThemeToggle:hover {
+    #darkModeToggle:hover {
       background-color: var(--shadow);
     }
 
@@ -119,9 +119,7 @@
 <body>
   <div id="header">
     <h1>Fact Generator</h1>
-   <button id="darkModeToggle" onclick="toggleTheme()" title="Toggle Theme">
-  <span id="mode-icon">☀️</span>
-</button>
+    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Light/Dark Mode Toggle">🌙</button>
   </div>
 
   <div id="controls">
@@ -186,20 +184,5 @@
   </a>
 </div>
 
-   <script>
-    // Dark mode logic (exact copy from index.html)
-    function toggleTheme() {
-      const isDark = document.body.classList.toggle('Theme');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-
-    // Apply saved theme on page load
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.body.classList.add('Theme');
-    }
-  </script>
-  <script src="script.js"></script>
 </body>
 </html>
-
