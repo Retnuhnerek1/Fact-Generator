@@ -127,16 +127,24 @@ function generateFact() {
   factDisplay.textContent = fact;
 }
 
-// Dark mode toggle function
 function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-  if (document.body.classList.contains('dark-mode')) {
-    modeIcon.textContent = '☀️';  // sun icon in dark mode
-  } else {
-    modeIcon.textContent = '🌙';  // moon icon in light mode
-  }
+  const body = document.body;
+  const isDark = body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+  const icon = document.getElementById('mode-icon');
+  icon.textContent = isDark ? '☀️' : '🌙';
 }
 
-// Event listeners
-generateBtn.addEventListener('click', generateFact);
-darkModeToggle.addEventListener('click', toggleDarkMode);
+// Apply saved theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme');
+  const icon = document.getElementById('mode-icon');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (icon) icon.textContent = '☀️';
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (icon) icon.textContent = '🌙';
+  }
+});
