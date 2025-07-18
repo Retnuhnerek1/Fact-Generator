@@ -146,10 +146,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-function toggleTheme() {
-  const body = document.body;
-  const iconSpan = document.getElementById("mode-icon");
-
   body.classList.toggle("dark-mode");
   localStorage.setItem("Theme", body.classList.contains("dark-mode") ? "dark" : "light");
 
