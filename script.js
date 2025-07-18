@@ -113,13 +113,13 @@ function generateFact() {
     facts[randomIndex] || "No facts available for this topic.";
 }
 
-function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-  const isDarkMode = document.body.classList.contains('dark-mode');
-  localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+function toggleTheme() {
+  document.body.classList.toggle('Theme');
+  const isTheme = document.body.classList.contains('Theme');
+  localStorage.setItem("theme", body.classList.contains("Theme") ? "dark" : "light");
 
-  const toggle = document.getElementById('darkModeToggle');
-  toggle.textContent = isDarkMode ? '☀️' : '🌙';
+  const toggle = document.getElementById('ThemeToggle');
+  toggle.textContent = isTheme ? '☀️' : '🌙';
 }
 
 
@@ -128,10 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const iconSpan = document.getElementById("mode-icon");
 
   if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
+    document.body.classList.add("Theme");
     if (iconSpan) iconSpan.textContent = "🌙";
   } else {
-    document.body.classList.remove("dark-mode");
+    document.body.classList.remove("Theme");
     if (iconSpan) iconSpan.textContent = "☀️";
   }
 });
@@ -146,7 +146,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-function toggleDarkMode() {
+function toggleTheme() {
   const body = document.body;
   const iconSpan = document.getElementById("mode-icon");
 
