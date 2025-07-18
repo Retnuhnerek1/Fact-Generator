@@ -156,7 +156,7 @@ function toggleDarkMode() {
   if (body.classList.contains("dark-mode")) {
     iconSpan.textContent = "🌙";
   } else {
-    iconSpan.textContent = "🌞";
+    iconSpan.textContent = "☀️";
   }
 
   // Optional: Save the theme preference
