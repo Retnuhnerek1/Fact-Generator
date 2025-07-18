@@ -8,6 +8,16 @@
 <body>
   <header id="header">
     <h1>Fact Generator</h1>
+    <div id="auth-section">
+      <div id="logged-out" style="display: none;">
+        <button id="loginBtn" class="auth-btn">Login</button>
+        <button id="signupBtn" class="auth-btn">Sign Up</button>
+      </div>
+      <div id="logged-in" style="display: none;">
+        <span id="welcomeText">Welcome, <span id="username"></span>!</span>
+        <button id="logoutBtn" class="auth-btn">Logout</button>
+      </div>
+    </div>
     <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
       <span id="mode-icon">🌙</span>
     </button>
@@ -52,6 +62,29 @@
   <section id="factDisplay">🧠 Pick a topic and hit Generate!</section>
 
   <a href="devlog.html" class="devlog-link">🛠️ View Dev Log</a>
+
+  <!-- Authentication Modal -->
+  <div id="authModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="loginForm">
+        <h2>Login</h2>
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button id="loginSubmit">Login</button>
+        <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+      </div>
+      <div id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupUsername" placeholder="Username" required>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
+        <button id="signupSubmit">Sign Up</button>
+        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
