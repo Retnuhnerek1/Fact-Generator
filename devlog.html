@@ -2,33 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dev Log</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      transition: background-color 0.3s, color 0.3s;
-      background-color: white;
-      color: black;
-      font-family: sans-serif;
-      text-align: center;
-      padding-top: 4em;
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --button-bg: #ff4444;
+      --button-hover: #ff6666;
+      --select-bg: white;
+      --fact-bg: white;
+      --shadow: rgba(0, 0, 0, 0.1);
     }
 
     .dark-mode {
-      background-color: #121212;
-      color: white;
+      --bg-color: #1a1a1a;
+      --text-color: #e0e0e0;
+      --button-bg: #ff4444;
+      --button-hover: #ff6666;
+      --select-bg: #333;
+      --fact-bg: #2d2d2d;
+      --shadow: rgba(255, 255, 255, 0.1);
     }
 
-    .dark-mode button {
-      background-color: #333;
-      color: white;
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    h1 {
+      margin: 0;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    #darkModeToggle {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      position: absolute;
+      right: 0;
+    }
+
+    #darkModeToggle:hover {
+      background-color: var(--shadow);
     }
 
     button {
       padding: 0.75em 1.5em;
       font-size: 1rem;
-      background-color: #444;
+      background-color: var(--button-bg);
       color: white;
       border: none;
       border-radius: 5px;
@@ -36,36 +75,55 @@
       transition: background-color 0.2s;
     }
 
-    #theme-toggle {
-      position: fixed;
-      top: 1em;
-      right: 1em;
+    button:hover {
+      background-color: var(--button-hover);
+    }
+
+    #log-content {
+      max-width: 800px;
+      margin: 2em auto;
+      background-color: var(--fact-bg);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px var(--shadow);
+    }
+
+    a {
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <button id="theme-toggle">🌙 Toggle Theme</button>
+  <div id="header">
+    <h1>🛠️ Dev Log</h1>
+    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Light/Dark Mode Toggle">🌙</button>
+  </div>
 
-  <h1>🛠️ Dev Log</h1>
-  <p>This is your development log page.</p>
+  <div id="log-content">
+    <p>This is your development log. Write your progress here!</p>
+    <ul>
+      <li>✅ Added dark/light mode toggle</li>
+      <li>✅ Linked devlog from homepage</li>
+      <li>🚧 Future: Add more features to generator</li>
+    </ul>
+  </div>
 
   <a href="index.html">
     <button>← Back to Fact Generator</button>
   </a>
 
   <script>
-    // Apply saved theme on page load
+    // Apply saved theme from localStorage
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       document.body.classList.add('dark-mode');
     }
 
-    // Toggle and save theme
-    document.getElementById('theme-toggle').addEventListener('click', () => {
+    function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
       const isDark = document.body.classList.contains('dark-mode');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
+    }
   </script>
 </body>
 </html>
