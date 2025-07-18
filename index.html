@@ -1,12 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css" />
   <meta charset="UTF-8" />
   <title>Fact Generator</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    /* Your existing CSS here — unchanged */
-    /* BUT: update this selector if you're using #factDisplay instead of #fact */
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --button-bg: #ff4444;
+      --button-hover: #ff6666;
+      --select-bg: white;
+      --fact-bg: white;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode {
+      --bg-color: #1a1a1a;
+      --text-color: #e0e0e0;
+      --button-bg: #ff4444;
+      --button-hover: #ff6666;
+      --select-bg: #333;
+      --fact-bg: #2d2d2d;
+      --shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    h1 {
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    #darkModeToggle {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      position: absolute;
+      right: 0;
+    }
+
+    #darkModeToggle:hover {
+      background-color: var(--shadow);
+    }
+
+    #controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    #topicSelect {
+      padding: 8px;
+      font-size: 1em;
+      background-color: var(--select-bg);
+      color: var(--text-color);
+      border: 2px solid var(--shadow);
+      border-radius: 5px;
+      appearance: auto;
+    }
+
+    #generateBtn {
+      background-color: var(--button-bg);
+      color: white;
+      font-size: 1.2em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    #generateBtn:hover {
+      background-color: var(--button-hover);
+    }
+
+    #generateBtn:active {
+      transform: scale(0.95);
+    }
+
     #factDisplay {
       margin: 30px auto;
       font-size: 1.4em;
@@ -22,7 +117,7 @@
 <body>
   <div id="header">
     <h1>Fact Generator</h1>
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Light/Dark Mode Toggle">🌙</button>
+    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
   </div>
 
   <div id="controls">
@@ -47,13 +142,13 @@
         <option value="animals_reptiles">Reptiles</option>
       </optgroup>
 
-      <optgroup label="Food"> 
+      <optgroup label="Food">
         <option value="food_italian">Italian</option>
         <option value="food_mexican">Mexican</option>
         <option value="food_japanese">Japanese</option>
         <option value="food_indian">Indian</option>
         <option value="food_chinese">Chinese</option>
-      </optgroup>  
+      </optgroup>
 
       <optgroup label="Technology">
         <option value="technology_computers">Computers</option>
@@ -66,8 +161,6 @@
   </div>
 
   <div id="factDisplay"></div>
-
-  <script src="script.js"></script>
 
   <div style="text-align: center; margin-top: 1em;">
     <a href="devlog.html" style="
@@ -84,5 +177,7 @@
       🛠️ View Dev Log
     </a>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
