@@ -116,7 +116,7 @@ function generateFact() {
 function toggleTheme() {
   document.body.classList.toggle('Theme');
   const isTheme = document.body.classList.contains('Theme');
-  localStorage.setItem("theme", body.classList.contains("Theme") ? "dark" : "light");
+  localStorage.setItem("Theme", body.classList.contains("Theme") ? "dark" : "light");
 
   const toggle = document.getElementById('ThemeToggle');
   toggle.textContent = isTheme ? '☀️' : '🌙';
@@ -124,7 +124,7 @@ function toggleTheme() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
+  const savedTheme = localStorage.getItem("Theme");
   const iconSpan = document.getElementById("mode-icon");
 
   if (savedTheme === "dark") {
@@ -151,19 +151,19 @@ function toggleTheme() {
   const iconSpan = document.getElementById("mode-icon");
 
   body.classList.toggle("dark-mode");
-  localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+  localStorage.setItem("Theme", body.classList.contains("dark-mode") ? "dark" : "light");
 
   if (iconSpan) {
     iconSpan.textContent = body.classList.contains("dark-mode") ? "🌙" : "☀️";
   }
 }
 
-  // Optional: Save the theme preference
-  localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+  // Optional: Save the Theme preference
+  localStorage.setItem("Theme", body.classList.contains("dark-mode") ? "dark" : "light");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
+  const savedTheme = localStorage.getItem("Theme");
   const iconSpan = document.getElementById("mode-icon");
 
   if (savedTheme === "dark") {
