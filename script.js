@@ -96,51 +96,49 @@ const factData = {
   ]
 };
 
+// Generate fact based on dropdown selection
 function generateFact() {
   const selectedTopic = document.getElementById('topicSelect').value;
-  let facts = [];
+  let factsArray = [];
 
-  if (selectedTopic === "any") {
+  if (selectedTopic === "random") {
+    // Gather all facts from all topics
     for (const topic in factData) {
-      facts = facts.concat(factData[topic]);
+      factsArray = factsArray.concat(factData[topic]);
     }
-  } else {
-    facts = factData[selectedTopic] || [];
+  } else if (factData[selectedTopic]) {
+    factsArray = factData[selectedTopic];
   }
 
-  const randomIndex = Math.floor(Math.random() * facts.length);
-  document.getElementById('factDisplay').textContent =
-    facts[randomIndex] || "No facts available for this topic.";
+  // Pick random fact or fallback
+  const randomIndex = Math.floor(Math.random() * factsArray.length);
+  const fact = factsArray[randomIndex] || "No facts available for this topic.";
+
+  // Display fact
+  document.getElementById('factDisplay').textContent = fact;
 }
 
+// Toggle dark mode and update icon
 function toggleDarkMode() {
   const body = document.body;
-  const icon = document.getElementById("mode-icon");
-  const isDark = body.classList.toggle("dark-mode");
+  const icon = document.getElementById('mode-icon');
+  const isDarkMode = body.classList.toggle('dark-mode');
 
-  icon.textContent = isDark ? "☀️" : "🌙";
-  localStorage.setItem("theme", isDark ? "dark" : "light");
+  if (icon) icon.textContent = isDarkMode ? '☀️' : '🌙';
+
+  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme");
-  const icon = document.getElementById("mode-icon");
+// Initialize theme and icon on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme');
+  const icon = document.getElementById('mode-icon');
 
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    if (icon) icon.textContent = "☀️";
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (icon) icon.textContent = '☀️';
   } else {
-    document.body.classList.remove("dark-mode");
-    if (icon) icon.textContent = "🌙";
+    document.body.classList.remove('dark-mode');
+    if (icon) icon.textContent = '🌙';
   }
-
-  // Smooth scrolling for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  });
 });
