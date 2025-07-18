@@ -1,4 +1,3 @@
-// All facts preserved exactly as you gave them
 const factData = {
   science_space: [
     "Space is completely silent. Because space is a vacuum with no air or molecules to carry sound waves, you wouldn't hear a thing.",
@@ -97,21 +96,19 @@ const factData = {
   ]
 };
 
-// Grab elements
 const topicSelect = document.getElementById('topicSelect');
 const generateBtn = document.getElementById('generateBtn');
 const factDisplay = document.getElementById('factDisplay');
 const darkModeToggle = document.getElementById('darkModeToggle');
 const modeIcon = document.getElementById('mode-icon');
 
-// Generate fact function
 function generateFact() {
   const topic = topicSelect.value;
 
   let factsArray;
 
   if (topic === "any") {
-    // Combine all facts into one big array for random pick
+
     factsArray = Object.values(factData).flat();
   } else {
     factsArray = factData[topic] || [];
@@ -122,7 +119,6 @@ function generateFact() {
     return;
   }
 
-  // Pick a random fact
   const fact = factsArray[Math.floor(Math.random() * factsArray.length)];
   factDisplay.textContent = fact;
 }
@@ -136,10 +132,10 @@ function toggleDarkMode() {
   icon.textContent = isDark ? '☀️' : '🌙';
 }
 
-// Apply saved theme on page load
 document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('theme');
   const icon = document.getElementById('mode-icon');
+
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
     if (icon) icon.textContent = '☀️';
@@ -147,4 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.remove('dark-mode');
     if (icon) icon.textContent = '🌙';
   }
+
+  generateBtn.addEventListener('click', generateFact);
 });
