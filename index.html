@@ -135,11 +135,14 @@
 <body>
   <div id="header">
     <h1>Fact Generator</h1>
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">🌙</button>
+    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
+      <span id="mode-icon">🌙</span>
+    </button>
   </div>
 
   <div id="controls">
     <select id="topicSelect">
+      <option value="any">🎲 Random Fact</option>
       <optgroup label="Science">
         <option value="science_space">Space</option>
         <option value="science_physics">Physics</option>
