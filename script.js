@@ -132,6 +132,214 @@ function toggleDarkMode() {
   icon.textContent = isDark ? '☀️' : '🌙';
 }
 
+// Authentication System
+class AuthSystem {
+  constructor() {
+    this.currentUser = null;
+    this.users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+    this.initializeAuth();
+  }
+
+  initializeAuth() {
+    const loggedInUser = localStorage.getItem('factGeneratorCurrentUser');
+    if (loggedInUser && this.users[loggedInUser]) {
+      this.currentUser = loggedInUser;
+      this.showLoggedInState();
+    } else {
+      this.showLoggedOutState();
+    }
+  }
+
+  showLoggedInState() {
+    document.getElementById('logged-out').style.display = 'none';
+    document.getElementById('logged-in').style.display = 'flex';
+    document.getElementById('username').textContent = this.currentUser;
+  }
+
+  showLoggedOutState() {
+    document.getElementById('logged-out').style.display = 'flex';
+    document.getElementById('logged-in').style.display = 'none';
+  }
+
+  register(username, email, password) {
+    if (this.users[username]) {
+      throw new Error('Username already exists');
+    }
+    
+    if (password.length < 6) {
+      throw new Error('Password must be at least 6 characters');
+    }
+
+    this.users[username] = {
+      email: email,
+      password: password, // In a real app, this should be hashed
+      createdAt: new Date().toISOString(),
+      preferences: {}
+    };
+
+    localStorage.setItem('factGeneratorUsers', JSON.stringify(this.users));
+    return true;
+  }
+
+  login(username, password) {
+    const user = this.users[username];
+    if (!user || user.password !== password) {
+      throw new Error('Invalid username or password');
+    }
+
+    this.currentUser = username;
+    localStorage.setItem('factGeneratorCurrentUser', username);
+    this.showLoggedInState();
+    return true;
+  }
+
+  logout() {
+    this.currentUser = null;
+    localStorage.removeItem('factGeneratorCurrentUser');
+    this.showLoggedOutState();
+  }
+
+  isLoggedIn() {
+    return this.currentUser !== null;
+  }
+
+  getCurrentUser() {
+    return this.currentUser;
+  }
+
+  getUserData() {
+    if (!this.currentUser) return null;
+    return this.users[this.currentUser];
+  }
+}
+
+// Initialize authentication system
+const auth = new AuthSystem();
+
+// Modal functionality
+const authModal = document.getElementById('authModal');
+const loginBtn = document.getElementById('loginBtn');
+const signupBtn = document.getElementById('signupBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const closeModal = document.querySelector('.close');
+const showSignup = document.getElementById('showSignup');
+const showLogin = document.getElementById('showLogin');
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+
+function openModal() {
+  authModal.style.display = 'flex';
+}
+
+function closeModalFunc() {
+  authModal.style.display = 'none';
+  clearForms();
+}
+
+function clearForms() {
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('signupUsername').value = '';
+  document.getElementById('signupEmail').value = '';
+  document.getElementById('signupPassword').value = '';
+  document.getElementById('signupConfirmPassword').value = '';
+}
+
+function showLoginForm() {
+  loginForm.style.display = 'block';
+  signupForm.style.display = 'none';
+}
+
+function showSignupForm() {
+  loginForm.style.display = 'none';
+  signupForm.style.display = 'block';
+}
+
+// Event listeners for auth buttons
+loginBtn.addEventListener('click', () => {
+  showLoginForm();
+  openModal();
+});
+
+signupBtn.addEventListener('click', () => {
+  showSignupForm();
+  openModal();
+});
+
+logoutBtn.addEventListener('click', () => {
+  auth.logout();
+});
+
+closeModal.addEventListener('click', closeModalFunc);
+
+showSignup.addEventListener('click', (e) => {
+  e.preventDefault();
+  showSignupForm();
+});
+
+showLogin.addEventListener('click', (e) => {
+  e.preventDefault();
+  showLoginForm();
+});
+
+// Close modal when clicking outside
+window.addEventListener('click', (e) => {
+  if (e.target === authModal) {
+    closeModalFunc();
+  }
+});
+
+// Login form submission
+document.getElementById('loginSubmit').addEventListener('click', () => {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  if (!username || !password) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  try {
+    auth.login(username, password);
+    closeModalFunc();
+    alert('Login successful!');
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+// Signup form submission
+document.getElementById('signupSubmit').addEventListener('click', () => {
+  const username = document.getElementById('signupUsername').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+  if (!username || !email || !password || !confirmPassword) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert('Passwords do not match');
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Please enter a valid email address');
+    return;
+  }
+
+  try {
+    auth.register(username, email, password);
+    auth.login(username, password);
+    closeModalFunc();
+    alert('Account created and logged in successfully!');
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('theme');
   const icon = document.getElementById('mode-icon');
