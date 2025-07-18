@@ -1,3 +1,5 @@
+document.getElementById('factDisplay').textContent = facts[randomIndex] || "No facts available for this topic.";
+
 const factData = {
   science_space: [
     "Space is completely silent. Because space is a vacuum with no air or molecules to carry sound waves, you wouldn't hear a thing.",
