@@ -18,16 +18,22 @@ body.dark-mode {
   border: 1px solid #555;
 }
 
-/* Clean up the theme toggle button */
+#mode-icon {
+  font-size: 1.5rem;    /* Ensure consistent sizing */
+  line-height: 1;
+  display: inline-block;
+}
+
 #darkModeToggle {
   background: none;
   border: none;
-  font-size: 1.5rem;  /* Bigger emoji */
+  font-size: 1.5rem;    /* Sync with emoji size */
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  padding: 0.3rem;
+  border-radius: 6px;
+  outline: none;
 }
+
 
 /* Optional: subtle hover effect */
 #darkModeToggle:hover {
@@ -38,5 +44,9 @@ body.dark-mode {
 #mode-icon {
   font-size: inherit;
   line-height: 1;
+}
+
+button {
+  all: unset;
 }
 
