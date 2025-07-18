@@ -116,7 +116,7 @@ function generateFact() {
 function toggleDarkMode() {
   document.body.classList.toggle('dark-mode');
   const isDarkMode = document.body.classList.contains('dark-mode');
-  localStorage.setItem('darkMode', isDarkMode);
+  localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
 
   const toggle = document.getElementById('darkModeToggle');
   toggle.textContent = isDarkMode ? '☀️' : '🌙';
