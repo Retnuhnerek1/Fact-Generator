@@ -123,13 +123,19 @@ function toggleDarkMode() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-  if (savedDarkMode) {
-    document.body.classList.add('dark-mode');
-    document.getElementById('darkModeToggle').textContent = '☀️';
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+  const iconSpan = document.getElementById("mode-icon");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+    if (iconSpan) iconSpan.textContent = "🌙";
+  } else {
+    document.body.classList.remove("dark-mode");
+    if (iconSpan) iconSpan.textContent = "☀️";
   }
 });
+
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
