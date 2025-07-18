@@ -136,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
@@ -152,12 +151,12 @@ function toggleDarkMode() {
   const iconSpan = document.getElementById("mode-icon");
 
   body.classList.toggle("dark-mode");
+  localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
 
-  if (body.classList.contains("dark-mode")) {
-    iconSpan.textContent = "🌙";
-  } else {
-    iconSpan.textContent = "☀️";
+  if (iconSpan) {
+    iconSpan.textContent = body.classList.contains("dark-mode") ? "🌙" : "☀️";
   }
+}
 
   // Optional: Save the theme preference
   localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
