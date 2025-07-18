@@ -1,3 +1,4 @@
+// All facts preserved exactly as you gave them
 const factData = {
   science_space: [
     "Space is completely silent. Because space is a vacuum with no air or molecules to carry sound waves, you wouldn't hear a thing.",
@@ -42,97 +43,97 @@ const factData = {
   animals_birds: [
     "Hummingbirds are the only birds that can fly backwards and hover in place.",
     "Penguins can hold their breath for up to 20 minutes while diving for food.",
-    "Owls can rotate their heads 270 degrees, thanks to extra neck vertebrae."
+    "Owls can rotate their heads 270 degrees in either direction."
   ],
   animals_fish: [
-    "Clownfish are all born male; some change to female later in life depending on social hierarchy.",
-    "The lungfish can survive out of water for several years by burrowing underground.",
-    "Electric eels can produce shocks up to 600 volts to stun prey or defend themselves."
+    "Some fish can glow in the dark Many deep-sea fish use bioluminescence to attract mates or lure prey. The light comes from special organs or symbiotic bacteria.",
+    "Fish can drown... in a way While it sounds odd, fish can suffocate if there’s not enough oxygen in the water—even if they’re surrounded by it.",
+    "Parrotfish sleep in a bubble of mucus It might sound gross, but this slimy cocoon helps protect them from parasites and predators while they rest."
   ],
   animals_reptiles: [
-    "Some species of turtles can live for more than 100 years.",
-    "Chameleons change color primarily to communicate, not just for camouflage.",
-    "Crocodiles have the strongest bite force of any animal on Earth."
+    "Some species of turtles can breathe through their butts. The technical term is cloacal respiration, and it helps them stay underwater for long periods.",
+    "Snakes hear using their jawbones! Since they lack external ears, vibrations from the ground travel through their skull to an inner ear, helping them track prey.",
+    "Many lizards can detach their tails when threatened—a process called autotomy. The wriggling tail distracts predators while the lizard makes a getaway."
   ],
   food_italian: [
-    "Pizza was originally a humble street food in Naples in the 18th century.",
-    "Parmesan cheese is aged for at least 12 months, sometimes over 2 years.",
-    "Espresso was invented in Italy in the early 20th century as a quick coffee brewing method."
+    "Pizza was originally a peasant food in Naples and didn't have tomatoes until the 18th century.",
+    "Parmigiano-Reggiano is one of the oldest cheeses still made using traditional methods, dating back over 800 years.",
+    "Espresso machines were invented in Italy in the early 20th century and revolutionized coffee culture worldwide."
   ],
   food_mexican: [
-    "Chocolate was first cultivated by the ancient Maya and Aztecs and was originally consumed as a bitter drink.",
-    "Corn (maize) was domesticated in Mexico over 7,000 years ago and remains a staple food.",
-    "Tacos date back to indigenous people of the Valley of Mexico before the Spanish arrived."
+    "Chili peppers were domesticated in Mexico over 6,000 years ago.",
+    "Chocolate originated from the cacao tree native to Mexico, where it was first consumed as a bitter drink.",
+    "Tacos have been a staple of Mexican cuisine for centuries, with regional variations across the country."
   ],
   food_japanese: [
-    "Sushi originated as a method of preserving fish in fermented rice, evolving over centuries into the delicacy we know.",
-    "Matcha is powdered green tea traditionally used in Japanese tea ceremonies.",
-    "Ramen was popularized in Japan after WWII but was inspired by Chinese noodle dishes."
+    "Sushi originally started as a method to preserve fish by fermenting it with rice.",
+    "Matcha, powdered green tea, has been used in Japanese tea ceremonies for centuries.",
+    "Ramen was introduced to Japan from China and became a popular comfort food after World War II."
   ],
   food_indian: [
-    "Curry powder is a British invention; Indian cooking uses a wide variety of spices combined fresh for each dish.",
-    "The tandoor oven, used for baking naan bread and cooking meats, dates back thousands of years.",
-    "Chai tea combines black tea with spices and milk and is a daily ritual for millions in India."
+    "India is the largest producer of spices worldwide, growing more than 70 different varieties.",
+    "The concept of vegetarianism has strong roots in Indian culture and religion.",
+    "Biryani is a famous mixed rice dish with Persian influences, popular across the Indian subcontinent."
   ],
   food_chinese: [
-    "Soy sauce has been used in Chinese cuisine for over 2,500 years.",
-    "Dim sum translates to 'touch the heart' and consists of small bite-sized portions traditionally served in tea houses.",
-    "Chinese cuisine has eight culinary traditions, including Sichuan, Cantonese, and Shandong styles."
+    "Chinese cuisine has eight major culinary traditions, each with unique flavors and ingredients.",
+    "Soy sauce, a staple condiment, originated over 2,500 years ago in China.",
+    "Dim sum is a style of Cantonese cuisine involving small bite-sized portions served in steamer baskets."
   ],
   technology_computers: [
-    "The first programmable computer was the Z3, created by Konrad Zuse in 1941.",
-    "The QWERTY keyboard layout was designed to prevent typewriter jams, not for typing efficiency.",
-    "Moore's Law predicted that the number of transistors on a microchip would double approximately every two years."
+    "The first programmable computer was the Z3, built in 1941 by Konrad Zuse.",
+    "The QWERTY keyboard was designed to reduce typewriter jams by spacing out commonly used letter pairings.",
+    "ENIAC was among the earliest electronic general-purpose computers, completed in 1945."
   ],
   technology_internet: [
-    "The first message sent over the internet was 'LO' — intended to be 'LOGIN' but the system crashed after the first two letters.",
-    "Email was invented before the World Wide Web, in the early 1970s.",
-    "The internet was originally developed as ARPANET, a military communication network."
+    "The internet started as ARPANET in the late 1960s, funded by the U.S. Department of Defense.",
+    "Email predates the World Wide Web by almost 20 years.",
+    "The first website went live in 1991, created by Tim Berners-Lee."
   ],
   technology_smartphones: [
-    "The first smartphone was IBM’s Simon, released in 1994 and included a touchscreen and apps.",
-    "Smartphones today have more computing power than the computers used for the Apollo moon missions.",
-    "The Android operating system is based on the Linux kernel."
-  ],
+    "The first smartphone, IBM Simon, was introduced in 1994 and had a touchscreen.",
+    "Modern smartphones have more computing power than the computers used for the Apollo moon missions.",
+    "Mobile apps store opened with Apple’s App Store launch in 2008, revolutionizing software distribution."
+  ]
 };
 
-// Select elements once
+// Grab elements
 const topicSelect = document.getElementById('topicSelect');
-const factDisplay = document.getElementById('factDisplay');
 const generateBtn = document.getElementById('generateBtn');
+const factDisplay = document.getElementById('factDisplay');
 const darkModeToggle = document.getElementById('darkModeToggle');
-const body = document.body;
+const modeIcon = document.getElementById('mode-icon');
 
+// Generate fact function
 function generateFact() {
-  const selectedTopic = topicSelect.value;
-  let factsArray = [];
+  const topic = topicSelect.value;
 
-  if (selectedTopic === 'any') {
-    // Combine all facts into one array
-    for (const key in factData) {
-      factsArray = factsArray.concat(factData[key]);
-    }
+  let factsArray;
+
+  if (topic === "any") {
+    // Combine all facts into one big array for random pick
+    factsArray = Object.values(factData).flat();
   } else {
-    factsArray = factData[selectedTopic] || [];
+    factsArray = factData[topic] || [];
   }
 
   if (factsArray.length === 0) {
-    factDisplay.textContent = "Sorry, no facts found for this topic.";
+    factDisplay.textContent = "No facts available for this topic.";
     return;
   }
 
-  const randomIndex = Math.floor(Math.random() * factsArray.length);
-  const fact = factsArray[randomIndex];
+  // Pick a random fact
+  const fact = factsArray[Math.floor(Math.random() * factsArray.length)];
   factDisplay.textContent = fact;
 }
 
+// Dark mode toggle function
 function toggleDarkMode() {
-  body.classList.toggle('dark-mode');
-  // Change icon depending on mode
-  if (body.classList.contains('dark-mode')) {
-    darkModeToggle.textContent = '☀️';
+  document.body.classList.toggle('dark-mode');
+  if (document.body.classList.contains('dark-mode')) {
+    modeIcon.textContent = '☀️';  // sun icon in dark mode
   } else {
-    darkModeToggle.textContent = '🌙';
+    modeIcon.textContent = '🌙';  // moon icon in light mode
   }
 }
 
