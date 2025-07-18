@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Fact Generator</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
     :root {
       --bg-color: #f4f4f4;
@@ -59,6 +58,7 @@
       transition: background-color 0.3s ease;
       position: absolute;
       right: 0;
+      user-select: none;
     }
 
     #darkModeToggle:hover {
@@ -82,17 +82,19 @@
       color: var(--text-color);
       border: 2px solid var(--shadow);
       border-radius: 5px;
+      min-width: 180px;
     }
 
     #generateBtn {
       background-color: var(--button-bg);
       color: white;
-      font-size: 1.5em;
-      padding: 20px 40px;
+      font-size: 1.2em;
+      padding: 15px 30px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       transition: transform 0.3s ease, background-color 0.3s ease;
+      user-select: none;
     }
 
     #generateBtn:hover {
@@ -111,7 +113,8 @@
       background-color: var(--fact-bg);
       border-radius: 10px;
       box-shadow: 0 4px 6px var(--shadow);
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 80px;
     }
 
     .devlog-link {
@@ -125,6 +128,7 @@
       cursor: pointer;
       text-decoration: none;
       transition: background-color 0.2s;
+      user-select: none;
     }
 
     .devlog-link:hover {
@@ -135,13 +139,11 @@
 <body>
   <div id="header">
     <h1>Fact Generator</h1>
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
-      <span id="mode-icon">🌙</span>
-    </button>
+    <button id="darkModeToggle" title="Toggle Light/Dark Mode">🌙</button>
   </div>
 
   <div id="controls">
-    <select id="topicSelect">
+    <select id="topicSelect" aria-label="Select a fact topic">
       <option value="any">🎲 Random Fact</option>
       <optgroup label="Science">
         <option value="science_space">Space</option>
@@ -174,7 +176,7 @@
       </optgroup>
     </select>
 
-    <button id="generateBtn" onclick="generateFact()">Show me a fact!</button>
+    <button id="generateBtn">Show me a fact!</button>
   </div>
 
   <div id="factDisplay">🧠 Pick a topic and hit Generate!</div>
