@@ -295,33 +295,30 @@ function incrementSessionCount() {
   const currentUser = localStorage.getItem('factGeneratorCurrentUser');
   if (!currentUser) return;
 
-  // Check if this is a new browser session
   const sessionKey = `session_${currentUser}`;
-  if (sessionStorage.getItem(sessionKey)) {
-    return; // Already counted this browser session
-  }
+  const alreadyTracked = sessionStorage.getItem(sessionKey);
+  if (alreadyTracked) return;
 
   const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
   const userData = users[currentUser];
+  if (!userData) return;
 
-  if (userData) {
-    if (!userData.stats) {
-      userData.stats = {
-        factsGenerated: 0,
-        totalTimeSpent: 0,
-        sessionsCount: 0,
-        categoryPreferences: {},
-        firstVisit: userData.createdAt || new Date().toISOString()
-      };
-    }
-
-    userData.stats.sessionsCount = (userData.stats.sessionsCount || 0) + 1;
-    users[currentUser] = userData;
-    localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
-    
-    // Mark this browser session as counted
-    sessionStorage.setItem(sessionKey, 'true');
+  if (!userData.stats) {
+    userData.stats = {
+      factsGenerated: 0,
+      totalTimeSpent: 0,
+      sessionsCount: 0,
+      categoryPreferences: {},
+      firstVisit: userData.createdAt || new Date().toISOString(),
+    };
   }
+
+  userData.stats.sessionsCount = (userData.stats.sessionsCount || 0) + 1;
+  users[currentUser] = userData;
+  localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
+  sessionStorage.setItem(sessionKey, 'true'); // only set ONCE per tab
+  console.log(`✅ Session counted: ${userData.stats.sessionsCount}`);
+}
 }
 
 // Track time before page unload
