@@ -108,7 +108,6 @@ function generateFact() {
   let factsArray;
 
   if (topic === "any") {
-
     factsArray = Object.values(factData).flat();
   } else {
     factsArray = factData[topic] || [];
@@ -121,6 +120,43 @@ function generateFact() {
 
   const fact = factsArray[Math.floor(Math.random() * factsArray.length)];
   factDisplay.textContent = fact;
+
+  // Track fact generation if user is logged in
+  trackFactGeneration(topic);
+}
+
+function trackFactGeneration(category) {
+  const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+  if (!currentUser) return;
+
+  const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+  const userData = users[currentUser];
+
+  if (!userData) return;
+
+  // Initialize stats if they don't exist
+  if (!userData.stats) {
+    userData.stats = {
+      factsGenerated: 0,
+      totalTimeSpent: 0,
+      sessionsCount: 0,
+      categoryPreferences: {},
+      firstVisit: userData.createdAt || new Date().toISOString()
+    };
+  }
+
+  // Increment fact count
+  userData.stats.factsGenerated = (userData.stats.factsGenerated || 0) + 1;
+
+  // Track category preference
+  if (!userData.stats.categoryPreferences) {
+    userData.stats.categoryPreferences = {};
+  }
+  userData.stats.categoryPreferences[category] = (userData.stats.categoryPreferences[category] || 0) + 1;
+
+  // Save updated data
+  users[currentUser] = userData;
+  localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
 }
 
 function toggleDarkMode() {
@@ -190,6 +226,7 @@ class AuthSystem {
     this.currentUser = username;
     localStorage.setItem('factGeneratorCurrentUser', username);
     this.showLoggedInState();
+    
     return true;
   }
 
@@ -215,6 +252,83 @@ class AuthSystem {
 
 // Initialize authentication system
 const auth = new AuthSystem();
+
+// Time tracking for logged-in users
+let sessionStartTime = Date.now();
+
+function trackTimeSpent() {
+  const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+  if (!currentUser) return;
+
+  const sessionTime = Math.floor((Date.now() - sessionStartTime) / 60000); // minutes
+  if (sessionTime === 0) return; // Don't save if less than a minute
+
+  const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+  const userData = users[currentUser];
+
+  if (userData) {
+    if (!userData.stats) {
+      userData.stats = {
+        factsGenerated: 0,
+        totalTimeSpent: 0,
+        sessionsCount: 0,
+        categoryPreferences: {},
+        firstVisit: userData.createdAt || new Date().toISOString()
+      };
+    }
+
+    userData.stats.totalTimeSpent = (userData.stats.totalTimeSpent || 0) + sessionTime;
+    users[currentUser] = userData;
+    localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
+    sessionStartTime = Date.now(); // Reset session timer
+  }
+}
+
+function startTimeTracking() {
+  const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+  if (currentUser) {
+    sessionStartTime = Date.now();
+  }
+}
+
+function incrementSessionCount() {
+  const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+  if (!currentUser) return;
+
+  // Check if this is a new browser session
+  const sessionKey = `session_${currentUser}`;
+  if (sessionStorage.getItem(sessionKey)) {
+    return; // Already counted this browser session
+  }
+
+  const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+  const userData = users[currentUser];
+
+  if (userData) {
+    if (!userData.stats) {
+      userData.stats = {
+        factsGenerated: 0,
+        totalTimeSpent: 0,
+        sessionsCount: 0,
+        categoryPreferences: {},
+        firstVisit: userData.createdAt || new Date().toISOString()
+      };
+    }
+
+    userData.stats.sessionsCount = (userData.stats.sessionsCount || 0) + 1;
+    users[currentUser] = userData;
+    localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
+    
+    // Mark this browser session as counted
+    sessionStorage.setItem(sessionKey, 'true');
+  }
+}
+
+// Track time before page unload
+window.addEventListener('beforeunload', trackTimeSpent);
+
+// Track time every minute
+setInterval(trackTimeSpent, 60000);
 
 // Modal functionality
 const authModal = document.getElementById('authModal');
@@ -353,4 +467,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   generateBtn.addEventListener('click', generateFact);
+  
+  // Start time tracking for logged-in users
+  startTimeTracking();
+  
+  // Count session for logged-in users (once per browser session)
+  incrementSessionCount();
 });
