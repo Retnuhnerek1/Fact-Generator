@@ -242,6 +242,10 @@
     </div>
   </div>
 
+  <p>Facts Generated: <span id="factsGenerated">0</span></p>
+<p>Total Time Spent: <span id="timeSpent">0h 0m</span></p>
+<p>Sessions: <span id="sessions">0</span></p>
+
   <div id="stats-content">
     <div id="logged-in-stats" class="stats-container" style="display: none;">
       <!-- Account Info -->
@@ -554,6 +558,23 @@
       window.location.reload();
     });
   </script>
+
+  <script>
+  const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+  const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+  const userData = users[currentUser];
+
+  if (userData && userData.stats) {
+    const facts = userData.stats.factsGenerated || 0;
+    const timeSpent = userData.stats.totalTimeSpent || 0;
+    const sessions = userData.stats.sessionsCount || 0;
+
+    document.getElementById('factsGenerated').textContent = facts;
+    document.getElementById('timeSpent').textContent = `${Math.floor(timeSpent / 60)}h ${timeSpent % 60}m`;
+    document.getElementById('sessions').textContent = sessions;
+  }
+</script>
+
 </body>
 </html>
 
