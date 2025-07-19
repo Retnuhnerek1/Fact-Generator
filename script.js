@@ -467,7 +467,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   generateBtn.addEventListener('click', generateFact);
-  
+
+  // ✅ Place this near the bottom of script.js
+const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+if (currentUser) {
+  incrementSessionCount(); // Track session no matter which page loads
+}
+
   // Start time tracking for logged-in users
   startTimeTracking();
   
