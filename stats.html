@@ -1,1 +1,559 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Stats - Fact Generator</title>
+  <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #333;
+      --button-bg: #ff4444;
+      --button-hover: #ff6666;
+      --select-bg: white;
+      --fact-bg: white;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --accent-color: #4CAF50;
+    }
+
+    .dark-mode {
+      --bg-color: #1a1a1a;
+      --text-color: #e0e0e0;
+      --button-bg: #ff4444;
+      --button-hover: #ff6666;
+      --select-bg: #333;
+      --fact-bg: #2d2d2d;
+      --shadow: rgba(255, 255, 255, 0.1);
+      --accent-color: #66BB6A;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    #header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .header-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      gap: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      flex: 1;
+      margin-left: 40px;
+    }
+
+    #darkModeToggle {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      margin-left: -40px;
+    }
+
+    #darkModeToggle:hover {
+      background-color: var(--shadow);
+    }
+
+    #auth-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .auth-btn {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .auth-btn:hover {
+      background-color: var(--button-hover);
+    }
+
+    #welcomeText {
+      font-size: 0.9rem;
+      margin-right: 10px;
+    }
+
+    .stats-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .stat-card {
+      background-color: var(--fact-bg);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px var(--shadow);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-icon {
+      font-size: 3em;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--accent-color);
+      margin: 10px 0;
+    }
+
+    .stat-label {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+
+    .stat-description {
+      font-size: 0.9em;
+      opacity: 0.7;
+      line-height: 1.4;
+    }
+
+    .not-logged-in {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: var(--fact-bg);
+      border-radius: 15px;
+      margin: 50px auto;
+      max-width: 600px;
+      box-shadow: 0 4px 6px var(--shadow);
+    }
+
+    .back-link {
+      text-decoration: none;
+      display: inline-block;
+      margin: 30px auto;
+      text-align: center;
+      width: 100%;
+    }
+
+    .back-link button {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .back-link button:hover {
+      background-color: var(--button-hover);
+    }
+
+    .time-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .time-unit {
+      background-color: var(--bg-color);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .time-unit-number {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--accent-color);
+      display: block;
+    }
+
+    .time-unit-label {
+      font-size: 0.8em;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div class="header-top">
+      <div id="auth-section">
+        <div id="logged-out" style="display: none;">
+          <button id="loginBtn" class="auth-btn">Login</button>
+          <button id="signupBtn" class="auth-btn">Sign Up</button>
+        </div>
+        <div id="logged-in" style="display: none;">
+          <span id="welcomeText">Welcome, <span id="username"></span>!</span>
+          <button id="logoutBtn" class="auth-btn">Logout</button>
+        </div>
+      </div>
+    </div>
+    <div class="header-bottom">
+      <h1>📊 User Statistics</h1>
+      <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
+        <span id="mode-icon">🌙</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="stats-content">
+    <div id="logged-in-stats" class="stats-container" style="display: none;">
+      <!-- Account Info -->
+      <div class="stat-card">
+        <span class="stat-icon">👤</span>
+        <div class="stat-label">Account Created</div>
+        <div id="accountAge" class="stat-description">Loading...</div>
+        <div id="joinDate" class="stat-description" style="margin-top: 10px;">Loading...</div>
+      </div>
+
+      <!-- Facts Generated -->
+      <div class="stat-card">
+        <span class="stat-icon">🧠</span>
+        <div class="stat-label">Facts Generated</div>
+        <div id="factsGenerated" class="stat-number">0</div>
+        <div class="stat-description">Keep exploring and learning!</div>
+      </div>
+
+      <!-- Time Spent -->
+      <div class="stat-card">
+        <span class="stat-icon">⏰</span>
+        <div class="stat-label">Total Time Spent</div>
+        <div id="totalTime" class="stat-number">0h 0m</div>
+        <div class="time-breakdown">
+          <div class="time-unit">
+            <span id="hoursSpent" class="time-unit-number">0</span>
+            <div class="time-unit-label">Hours</div>
+          </div>
+          <div class="time-unit">
+            <span id="minutesSpent" class="time-unit-number">0</span>
+            <div class="time-unit-label">Minutes</div>
+          </div>
+          <div class="time-unit">
+            <span id="sessionsCount" class="time-unit-number">0</span>
+            <div class="time-unit-label">Sessions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Favorite Category -->
+      <div class="stat-card">
+        <span class="stat-icon">❤️</span>
+        <div class="stat-label">Favorite Category</div>
+        <div id="favoriteCategory" class="stat-number">None</div>
+        <div id="categoryStats" class="stat-description">Generate facts to see your preferences!</div>
+      </div>
+    </div>
+
+    <div id="not-logged-in-message" class="not-logged-in" style="display: none;">
+      <h2>🔒 Please Log In</h2>
+      <p>You need to be logged in to view your statistics. Create an account or log in to track your fact generation journey!</p>
+      <button onclick="goToLogin()" class="auth-btn" style="margin-top: 20px; padding: 12px 24px;">Go to Login</button>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link">
+    <button>← Back to Fact Generator</button>
+  </a>
+
+  <script src="timeTracker.js"></script>
+  <script>
+    class StatsTracker {
+      constructor() {
+        this.currentUser = null;
+        this.sessionStartTime = Date.now();
+        this.initializeStats();
+      }
+
+      initializeStats() {
+        const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+        const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+        
+        if (currentUser && users[currentUser]) {
+          this.currentUser = currentUser;
+          this.showLoggedInState();
+          this.loadUserStats();
+          this.startTimeTracking();
+        } else {
+          this.showLoggedOutState();
+        }
+      }
+
+      showLoggedInState() {
+        document.getElementById('logged-out').style.display = 'none';
+        document.getElementById('logged-in').style.display = 'flex';
+        document.getElementById('logged-in-stats').style.display = 'grid';
+        document.getElementById('not-logged-in-message').style.display = 'none';
+        document.getElementById('username').textContent = this.currentUser;
+      }
+
+      showLoggedOutState() {
+        document.getElementById('logged-out').style.display = 'flex';
+        document.getElementById('logged-in').style.display = 'none';
+        document.getElementById('logged-in-stats').style.display = 'none';
+        document.getElementById('not-logged-in-message').style.display = 'block';
+      }
+
+      loadUserStats() {
+        const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+        const userData = users[this.currentUser];
+        
+        if (!userData) return;
+
+        // Initialize stats if they don't exist
+        if (!userData.stats) {
+          userData.stats = {
+            factsGenerated: 0,
+            totalTimeSpent: 0,
+            sessionsCount: 0,
+            categoryPreferences: {},
+            firstVisit: userData.createdAt || new Date().toISOString()
+          };
+          this.saveUserData(userData);
+        }
+
+        this.displayAccountAge(userData.createdAt || userData.stats.firstVisit);
+        this.displayFactsGenerated(userData.stats.factsGenerated || 0);
+        this.displayTimeSpent(userData.stats.totalTimeSpent || 0, userData.stats.sessionsCount || 0);
+        this.displayFavoriteCategory(userData.stats.categoryPreferences || {});
+      }
+
+      displayAccountAge(createdAt) {
+        const created = new Date(createdAt);
+        const now = new Date();
+        const diffTime = Math.abs(now - created);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        
+        let ageText = '';
+        if (diffDays === 0) {
+          ageText = 'Created today!';
+        } else if (diffDays === 1) {
+          ageText = '1 day old';
+        } else if (diffDays < 30) {
+          ageText = `${diffDays} days old`;
+        } else if (diffDays < 365) {
+          const months = Math.floor(diffDays / 30);
+          ageText = `${months} month${months > 1 ? 's' : ''} old`;
+        } else {
+          const years = Math.floor(diffDays / 365);
+          ageText = `${years} year${years > 1 ? 's' : ''} old`;
+        }
+
+        document.getElementById('accountAge').textContent = ageText;
+        document.getElementById('joinDate').textContent = `Joined: ${created.toLocaleDateString()}`;
+      }
+
+      displayFactsGenerated(count) {
+        document.getElementById('factsGenerated').textContent = count.toLocaleString();
+      }
+
+      displayTimeSpent(totalMinutes, sessions) {
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        
+        document.getElementById('totalTime').textContent = `${hours}h ${minutes}m`;
+        document.getElementById('hoursSpent').textContent = hours;
+        document.getElementById('minutesSpent').textContent = minutes;
+        document.getElementById('sessionsCount').textContent = sessions;
+      }
+
+      displayFavoriteCategory(categoryPreferences) {
+        const entries = Object.entries(categoryPreferences);
+        if (entries.length === 0) {
+          document.getElementById('favoriteCategory').textContent = 'None yet';
+          document.getElementById('categoryStats').textContent = 'Generate facts to see your preferences!';
+          return;
+        }
+
+        entries.sort((a, b) => b[1] - a[1]);
+        const [topCategory, topCount] = entries[0];
+        
+        const categoryNames = {
+          'science_space': 'Space',
+          'science_physics': 'Physics',
+          'science_chemistry': 'Chemistry',
+          'science_biology': 'Biology',
+          'history_bc_era': 'B.C. Era',
+          'history_ancient_greece': 'Ancient Greece',
+          'history_rome': 'Rome',
+          'animals_mammals': 'Mammals',
+          'animals_birds': 'Birds',
+          'animals_fish': 'Fish',
+          'animals_reptiles': 'Reptiles',
+          'food_italian': 'Italian Food',
+          'food_mexican': 'Mexican Food',
+          'food_japanese': 'Japanese Food',
+          'food_indian': 'Indian Food',
+          'food_chinese': 'Chinese Food',
+          'technology_computers': 'Computers',
+          'technology_internet': 'Internet',
+          'technology_smartphones': 'Smartphones',
+          'any': 'Random Facts'
+        };
+
+        document.getElementById('favoriteCategory').textContent = categoryNames[topCategory] || topCategory;
+        document.getElementById('categoryStats').textContent = `${topCount} facts generated in this category`;
+      }
+
+      startTimeTracking() {
+        // Update display every 10 seconds to show current session time
+        setInterval(() => {
+          this.updateTimeDisplay();
+        }, 10000);
+
+        // Save time every minute
+        setInterval(() => {
+          this.saveSessionTime();
+        }, 60000);
+
+        // Track time spent on the site
+        window.addEventListener('beforeunload', () => {
+          this.saveSessionTime();
+        });
+      }
+
+      updateTimeDisplay() {
+        if (!this.currentUser) return;
+
+        const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+        const userData = users[this.currentUser];
+
+        if (userData && userData.stats) {
+          // Calculate current session time
+          const currentSessionMinutes = Math.floor((Date.now() - this.sessionStartTime) / 60000);
+          const totalMinutes = (userData.stats.totalTimeSpent || 0) + currentSessionMinutes;
+          
+          this.displayTimeSpent(totalMinutes, userData.stats.sessionsCount || 0);
+        }
+      }
+
+      saveSessionTime() {
+        if (!this.currentUser) return;
+
+        const sessionTime = Math.floor((Date.now() - this.sessionStartTime) / 60000); // minutes
+        if (sessionTime === 0) return; // Don't save if less than a minute
+
+        const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+        const userData = users[this.currentUser];
+
+        if (userData && userData.stats) {
+          userData.stats.totalTimeSpent = (userData.stats.totalTimeSpent || 0) + sessionTime;
+          this.saveUserData(userData);
+          this.sessionStartTime = Date.now(); // Reset session timer
+          
+          // Update display after saving
+          this.displayTimeSpent(userData.stats.totalTimeSpent, userData.stats.sessionsCount || 0);
+        }
+      }
+
+      incrementSession() {
+        if (!this.currentUser) return;
+
+        const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+        const userData = users[this.currentUser];
+
+        if (userData && userData.stats) {
+          userData.stats.sessionsCount = (userData.stats.sessionsCount || 0) + 1;
+          this.saveUserData(userData);
+        }
+      }
+
+      saveUserData(userData) {
+        const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+        users[this.currentUser] = userData;
+        localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
+      }
+    }
+
+    // Global functions
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateIcon(isDark);
+    }
+
+    function updateIcon(isDark) {
+      document.getElementById('mode-icon').textContent = isDark ? '☀️' : '🌙';
+    }
+
+    function goToLogin() {
+      window.location.href = 'index.html';
+    }
+
+    // Initialize stats tracker
+    const statsTracker = new StatsTracker();
+
+    // Apply saved theme on page load
+    window.onload = () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        updateIcon(true);
+      } else {
+        updateIcon(false);
+      }
+    };
+
+    // Auth button handlers
+    document.getElementById('loginBtn')?.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('signupBtn')?.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+      statsTracker.saveSessionTime();
+      localStorage.removeItem('factGeneratorCurrentUser');
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
+
