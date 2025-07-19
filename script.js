@@ -296,7 +296,10 @@ function incrementSessionCount() {
   if (!currentUser) return;
 
   const sessionKey = `session_${currentUser}`;
-  const alreadyTracked = sessionStorage.getItem(sessionKey);
+ const lastSession = parseInt(localStorage.getItem(sessionKey), 10);
+const now = Date.now();
+if (lastSession && now - lastSession < 300000) return; // 5-minute minimum gap between sessions
+localStorage.setItem(sessionKey, now.toString());
   if (alreadyTracked) return;
 
   const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
