@@ -472,5 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
   startTimeTracking();
   
   // Count session for logged-in users (once per browser session)
+  const auth = new AuthSystem();
   incrementSessionCount();
 });
