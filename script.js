@@ -478,6 +478,8 @@ if (currentUser) {
   startTimeTracking();
   
   // Count session for logged-in users (once per browser session)
-  const auth = new AuthSystem();
-  incrementSessionCount();
+window.addEventListener('DOMContentLoaded', () => {
+  const auth = new AuthSystem(); // ✅ ensure this runs AFTER DOM is ready
+  incrementSessionCount();       // ✅ keeps session tracking correct
+});
 });
