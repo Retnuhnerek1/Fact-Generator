@@ -67,7 +67,7 @@
 
     #header {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       width: 100%;
       max-width: 800px;
@@ -75,10 +75,27 @@
       position: relative;
     }
 
+    .header-top {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .header-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      gap: 20px;
+    }
+
     h1 {
-      margin: 0 auto;
-      flex-grow: 1;
+      margin: 0;
       text-align: center;
+      flex: 1;
+      margin-left: 40px;
     }
 
     #darkModeToggle {
@@ -89,8 +106,7 @@
       padding: 5px;
       border-radius: 5px;
       transition: background-color 0.3s ease;
-      position: absolute;
-      right: 0;
+      margin-left: -40px;
     }
 
     #darkModeToggle:hover {
@@ -132,20 +148,24 @@
 </head>
 <body>
   <div id="header">
-    <h1>🛠️ Dev Log</h1>
-    <div id="auth-section">
-      <div id="logged-out" style="display: none;">
-        <button id="loginBtn" class="auth-btn">Login</button>
-        <button id="signupBtn" class="auth-btn">Sign Up</button>
-      </div>
-      <div id="logged-in" style="display: none;">
-        <span id="welcomeText">Welcome, <span id="username"></span>!</span>
-        <button id="logoutBtn" class="auth-btn">Logout</button>
+    <div class="header-top">
+      <div id="auth-section">
+        <div id="logged-out" style="display: none;">
+          <button id="loginBtn" class="auth-btn">Login</button>
+          <button id="signupBtn" class="auth-btn">Sign Up</button>
+        </div>
+        <div id="logged-in" style="display: none;">
+          <span id="welcomeText">Welcome, <span id="username"></span>!</span>
+          <button id="logoutBtn" class="auth-btn">Logout</button>
+        </div>
       </div>
     </div>
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Light/Dark Mode Toggle">
-      <span id="mode-icon">🌙</span>
-    </button>
+    <div class="header-bottom">
+      <h1>🛠️ Dev Log</h1>
+      <button id="darkModeToggle" onclick="toggleDarkMode()" title="Light/Dark Mode Toggle">
+        <span id="mode-icon">🌙</span>
+      </button>
+    </div>
   </div>
 
   <div id="log-content">
