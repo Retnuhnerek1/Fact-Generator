@@ -30,10 +30,25 @@ body {
 
 #header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   max-width: 800px;
   margin: 0 auto 30px;
+  position: relative;
+}
+
+.header-top {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.header-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   position: relative;
   gap: 20px;
 }
@@ -42,14 +57,14 @@ h1 {
   margin: 0;
   text-align: center;
   flex: 1;
+  margin-right: 20px;
+  margin-left: 80px;
 }
 
 #auth-section {
   display: flex;
   align-items: center;
   gap: 10px;
-  position: absolute;
-  right: 60px;
 }
 
 .auth-btn {
