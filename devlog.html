@@ -176,6 +176,7 @@
   
   <a href="index.html"><button>← Back to Fact Generator</button></a>
 
+  <script src="timeTracker.js"></script>
   <script>
     const modeIcon = document.getElementById('mode-icon');
 
@@ -230,5 +231,48 @@
       checkAuth();
     });
   </script>
+
+  <script>
+  // Time tracking for logged-in users
+  let sessionStartTime = Date.now();
+
+  function trackTimeSpent() {
+    const currentUser = localStorage.getItem('factGeneratorCurrentUser');
+    if (!currentUser) return;
+
+    const sessionTime = Math.floor((Date.now() - sessionStartTime) / 60000); // minutes
+    if (sessionTime === 0) return; // Don't save if less than a minute
+
+    const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
+    const userData = users[currentUser];
+
+    if (userData) {
+      if (!userData.stats) {
+        userData.stats = {
+          factsGenerated: 0,
+          totalTimeSpent: 0,
+          sessionsCount: 0,
+          categoryPreferences: {},
+          firstVisit: userData.createdAt || new Date().toISOString()
+        };
+      }
+
+      userData.stats.totalTimeSpent = (userData.stats.totalTimeSpent || 0) + sessionTime;
+      users[currentUser] = userData;
+      localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
+      sessionStartTime = Date.now(); // Reset session timer
+    }
+  }
+
+  // Track time before page unload
+  window.addEventListener('beforeunload', trackTimeSpent);
+
+  // Track time every minute
+  setInterval(trackTimeSpent, 60000);
+    
+  </script>
+
+  <script src="script.js"></script>
+  
 </body>
 </html>
