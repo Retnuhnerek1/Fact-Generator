@@ -7,20 +7,24 @@
 </head>
 <body>
   <header id="header">
-    <h1>Fact Generator</h1>
-    <div id="auth-section">
-      <div id="logged-out" style="display: none;">
-        <button id="loginBtn" class="auth-btn">Login</button>
-        <button id="signupBtn" class="auth-btn">Sign Up</button>
-      </div>
-      <div id="logged-in" style="display: none;">
-        <span id="welcomeText">Welcome, <span id="username"></span>!</span>
-        <button id="logoutBtn" class="auth-btn">Logout</button>
+    <div class="header-top">
+      <div id="auth-section">
+        <div id="logged-out" style="display: none;">
+          <button id="loginBtn" class="auth-btn">Login</button>
+          <button id="signupBtn" class="auth-btn">Sign Up</button>
+        </div>
+        <div id="logged-in" style="display: none;">
+          <span id="welcomeText">Welcome, <span id="username"></span>!</span>
+          <button id="logoutBtn" class="auth-btn">Logout</button>
+        </div>
       </div>
     </div>
-    <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
-      <span id="mode-icon">🌙</span>
-    </button>
+    <div class="header-bottom">
+      <h1>Fact Generator</h1>
+      <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
+        <span id="mode-icon">🌙</span>
+      </button>
+    </div>
   </header>
 
   <section id="controls">
