@@ -2,98 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fact Generator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header id="header">
-    <div class="header-top">
-      <div id="auth-section">
-        <div id="logged-out" style="display: none;">
-          <button id="loginBtn" class="auth-btn">Login</button>
-          <button id="signupBtn" class="auth-btn">Sign Up</button>
-        </div>
-        <div id="logged-in" style="display: none;">
-          <span id="welcomeText">Welcome, <span id="username"></span>!</span>
-          <button id="logoutBtn" class="auth-btn">Logout</button>
-        </div>
-      </div>
-    </div>
-    <div class="header-bottom">
-      <h1>Fact Generator</h1>
-      <button id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle Light/Dark Mode">
-        <span id="mode-icon">🌙</span>
-      </button>
-    </div>
-  </header>
-
-  <section id="controls">
-    <select id="topicSelect">
-      <option value="any">🎲 Random Fact</option>
-      <optgroup label="Science">
-        <option value="science_space">Space</option>
-        <option value="science_physics">Physics</option>
-        <option value="science_chemistry">Chemistry</option>
-        <option value="science_biology">Biology</option>
-      </optgroup>
-      <optgroup label="History">
-        <option value="history_bc_era">B.C. Era</option>
-        <option value="history_ancient_greece">Ancient Greece</option>
-        <option value="history_rome">Rome</option>
-      </optgroup>
-      <optgroup label="Animals">
-        <option value="animals_mammals">Mammals</option>
-        <option value="animals_birds">Birds</option>
-        <option value="animals_fish">Fish</option>
-        <option value="animals_reptiles">Reptiles</option>
-      </optgroup>
-      <optgroup label="Food">
-        <option value="food_italian">Italian</option>
-        <option value="food_mexican">Mexican</option>
-        <option value="food_japanese">Japanese</option>
-        <option value="food_indian">Indian</option>
-        <option value="food_chinese">Chinese</option>
-      </optgroup>
-      <optgroup label="Technology">
-        <option value="technology_computers">Computers</option>
-        <option value="technology_internet">Internet</option>
-        <option value="technology_smartphones">Smartphones</option>
-      </optgroup>
-    </select>
-    <button id="generateBtn">Show me a fact!</button>
-  </section>
-
-  <section id="factDisplay">🧠 Pick a topic and hit Generate!</section>
-
-  <div class="nav-buttons">
-    <a href="devlog.html" class="devlog-link">🛠️ View Dev Log</a>
-    <a href="stats.html" class="devlog-link">📊 Stats</a>
-  </div>
-
-  <!-- Authentication Modal -->
-  <div id="authModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div id="loginForm">
-        <h2>Login</h2>
-        <input type="text" id="loginUsername" placeholder="Username" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button id="loginSubmit">Login</button>
-        <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
-      </div>
-      <div id="signupForm" style="display: none;">
-        <h2>Sign Up</h2>
-        <input type="text" id="signupUsername" placeholder="Username" required>
-        <input type="email" id="signupEmail" placeholder="Email" required>
-        <input type="password" id="signupPassword" placeholder="Password" required>
-        <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
-        <button id="signupSubmit">Sign Up</button>
-        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
-      </div>
+  <div class="top-bar">
+    <div class="auth-buttons">
+      <button onclick="toggleForm('login')">Login</button>
+      <button onclick="toggleForm('signup')">Sign Up</button>
     </div>
   </div>
 
-  <script src="timeTracker.js"></script>
+  <!-- Auth Forms (hidden by default) -->
+  <div id="loginForm" class="auth-form hidden">
+    <input type="text" id="loginUsername" placeholder="Username">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="signupForm" class="auth-form hidden">
+    <input type="text" id="signupUsername" placeholder="Username">
+    <input type="password" id="signupPassword" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
+  </div>
+
+  <div class="container">
+    <div class="header-controls">
+      <button id="darkModeToggle" class="theme-toggle">🌙</button>
+      <div id="userControls" class="user-controls" style="display:none;">
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
+    
+    <h1>🧠 Random Fact Generator</h1>
+    <p id="loginStatus"></p>
+    
+    <div class="fact-generator">
+      <select id="topicSelect">
+        <option value="any">Any Topic</option>
+        <optgroup label="🔬 Science">
+          <option value="astronomy">Astronomy & Space</option>
+          <option value="biology">Biology & Life Sciences</option>
+          <option value="physics">Physics & Matter</option>
+          <option value="chemistry">Chemistry & Elements</option>
+          <option value="earth-science">Earth & Geology</option>
+          <option value="medical">Medical & Health</option>
+        </optgroup>
+        <optgroup label="🐾 Animals & Nature">
+          <option value="mammals">Mammals</option>
+          <option value="birds">Birds</option>
+          <option value="marine-life">Marine Life</option>
+          <option value="insects">Insects & Bugs</option>
+          <option value="plants">Plants & Botany</option>
+          <option value="ecosystems">Ecosystems</option>
+        </optgroup>
+        <optgroup label="📚 History & Culture">
+          <option value="ancient-history">Ancient Civilizations</option>
+          <option value="modern-history">Modern History</option>
+          <option value="world-cultures">World Cultures</option>
+          <option value="archaeology">Archaeology</option>
+        </optgroup>
+        <optgroup label="💻 Technology & Innovation">
+          <option value="computers">Computers & Internet</option>
+          <option value="inventions">Inventions</option>
+          <option value="engineering">Engineering</option>
+          <option value="space-tech">Space Technology</option>
+        </optgroup>
+        <optgroup label="🌍 Geography & Travel">
+          <option value="countries">Countries & Cities</option>
+          <option value="landmarks">Landmarks</option>
+          <option value="weather">Weather & Climate</option>
+        </optgroup>
+        <optgroup label="🍕 Food & Cooking">
+          <option value="cuisine">World Cuisine</option>
+          <option value="ingredients">Ingredients & Nutrition</option>
+          <option value="cooking-history">Culinary History</option>
+        </optgroup>
+        <optgroup label="🎨 Arts & Entertainment">
+          <option value="music">Music</option>
+          <option value="movies">Movies & Film</option>
+          <option value="literature">Literature</option>
+          <option value="art">Visual Arts</option>
+        </optgroup>
+        <optgroup label="🏃 Sports & Human Body">
+          <option value="sports">Sports</option>
+          <option value="human-body">Human Body</option>
+          <option value="psychology">Psychology</option>
+        </optgroup>
+      </select>
+      <div class="button-group">
+        <button id="generateBtn">
+          <span id="btnText">Give Me a Fact!</span>
+          <span id="btnLoader" class="loader hidden">⏳</span>
+        </button>
+      </div>
+      <p class="keyboard-hint">💡 Press Enter to generate facts • Select "Any Topic" for random facts</p>
+    </div>
+    
+    <div id="factContainer" class="fact-container">
+      <p id="factDisplay"></p>
+      <div id="factActions" class="fact-actions hidden">
+        <button id="favoriteBtn" class="action-btn">❤️ Favorite</button>
+        <button id="shareBtn" class="action-btn">📋 Copy</button>
+      </div>
+      <div class="nav-links">
+        <a id="statsLink" href="stats.html" style="display:none;">📊 View My Stats</a>
+        <a id="favoritesLink" href="#" style="display:none;" onclick="toggleFavorites()">❤️ My Favorites</a>
+        <a id="historyLink" href="#" style="display:none;" onclick="toggleHistory()">📜 History</a>
+        <a href="devlog.html">📝 Development Log</a>
+      </div>
+    </div>
+
+    <div id="favoritesSection" class="favorites-section hidden">
+      <h3>❤️ Your Favorite Facts</h3>
+      <input type="text" id="favoritesSearch" placeholder="🔍 Search your favorites..." class="search-input">
+      <div id="favoritesList" class="favorites-list"></div>
+    </div>
+
+    <div id="historySection" class="favorites-section hidden">
+      <h3>📜 Recent Facts</h3>
+      <input type="text" id="historySearch" placeholder="🔍 Search fact history..." class="search-input">
+      <div id="historyList" class="favorites-list"></div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
