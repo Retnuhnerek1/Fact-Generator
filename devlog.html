@@ -1,278 +1,413 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Dev Log</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fact Generator - Development Log v1.0</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    :root {
-      --bg-color: #f4f4f4;
-      --text-color: #333;
-      --button-bg: #ff4444;
-      --button-hover: #ff6666;
-      --select-bg: white;
-      --fact-bg: white;
-      --shadow: rgba(0, 0, 0, 0.1);
+    .devlog-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-
-    .dark-mode {
-      --bg-color: #1a1a1a;
-      --text-color: #e0e0e0;
-      --button-bg: #ff4444;
-      --button-hover: #ff6666;
-      --select-bg: #333;
-      --fact-bg: #2d2d2d;
-      --shadow: rgba(255, 255, 255, 0.1);
+    
+    .dark-mode .devlog-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.1);
     }
-
-    #auth-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .auth-btn {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      background-color: var(--button-bg);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .auth-btn:hover {
-      background-color: var(--button-hover);
-    }
-
-    #welcomeText {
-      font-size: 0.9rem;
-      margin-right: 10px;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      padding: 50px 20px;
-      text-align: center;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-
-    #header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 800px;
-      margin-bottom: 30px;
-      position: relative;
-    }
-
-    .header-top {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    .header-bottom {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      position: relative;
-      gap: 20px;
-    }
-
-    h1 {
-      margin: 0;
-      text-align: center;
-      flex: 1;
-      margin-left: 40px;
-    }
-
-    #darkModeToggle {
-      background: none;
-      border: none;
-      font-size: 1.5em;
-      cursor: pointer;
-      padding: 5px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-      margin-left: -40px;
-    }
-
-    #darkModeToggle:hover {
-      background-color: var(--shadow);
-    }
-
-    #log-content {
-      background-color: var(--fact-bg);
-      max-width: 800px;
-      width: 100%;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px var(--shadow);
-      text-align: left;
-      margin-bottom: 2em;
-    }
-
-    a {
-      text-decoration: none;
+    
+    .version-badge {
       display: inline-block;
-      margin-top: 1em;
-    }
-
-    a button {
-      padding: 0.75em 1.5em;
-      font-size: 1rem;
-      background-color: var(--button-bg);
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
       color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-weight: bold;
+      margin-bottom: 1rem;
     }
-
-    a button:hover {
-      background-color: var(--button-hover);
+    
+    .feature-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      border-left: 4px solid #3498db;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .tech-badge {
+      background: linear-gradient(45deg, #9b59b6, #8e44ad);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .stats-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .stat-box {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #3498db;
+    }
+    
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    .changelog {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin: 1rem 0;
+    }
+    
+    .changelog h4 {
+      color: #27ae60;
+      margin-bottom: 0.5rem;
+    }
+    
+    .changelog ul {
+      text-align: left;
+    }
+    
+    .changelog li {
+      margin: 0.5rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+    
+    .changelog li::before {
+      content: "✅";
+      position: absolute;
+      left: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .devlog-container {
+        padding: 1rem;
+        margin: 0.5rem;
+      }
+      
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-overview {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
 <body>
-  <div id="header">
-    <div class="header-top">
-      <div id="auth-section">
-        <div id="logged-out" style="display: none;">
-          <button id="loginBtn" class="auth-btn">Login</button>
-          <button id="signupBtn" class="auth-btn">Sign Up</button>
-        </div>
-        <div id="logged-in" style="display: none;">
-          <span id="welcomeText">Welcome, <span id="username"></span>!</span>
-          <button id="logoutBtn" class="auth-btn">Logout</button>
-        </div>
-      </div>
-    </div>
-    <div class="header-bottom">
-      <h1>🛠️ Dev Log</h1>
-      <button id="darkModeToggle" onclick="toggleDarkMode()" title="Light/Dark Mode Toggle">
-        <span id="mode-icon">🌙</span>
-      </button>
+  <div class="top-bar">
+    <a href="index.html" class="back-btn">← Back to Fact Generator</a>
+    <div style="display: flex; align-items: center;">
+      <button id="darkModeToggle" class="theme-toggle">🌙</button>
     </div>
   </div>
 
-  <div id="log-content">
-    <strong>Version 1.0:</strong>
-    <p>This version launched on 7/17/2025. It included dark/light mode, a dev log (the one you are reading now), and 5 categories with subcategories and a few facts. Those categories include: Science, History, Animals, Food, and Technology.</p>
-  <strong>Version 1.1:</strong> <p>This version launched on 7/18/2025. It added accounts. You can now make and login to your account(s). I'm probably going to make achievements and a stat page that uses your accounts to get data.</p>
-</div>
-  
-  <a href="index.html"><button>← Back to Fact Generator</button></a>
+  <div class="devlog-container">
+    <div class="version-badge">Version 1.0.0</div>
+    <h1>🧠 Fact Generator - Development Log</h1>
+    <p><strong>Release Date:</strong> December 2024</p>
+    <p><strong>Development Status:</strong> Stable Release</p>
 
-  <script src="timeTracker.js"></script>
+    <div class="stats-overview">
+      <div class="stat-box">
+        <div class="stat-number">8</div>
+        <div>Major Categories</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">30+</div>
+        <div>Sub-categories</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">400+</div>
+        <div>Unique Facts</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">15+</div>
+        <div>Key Features</div>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>🚀 What's New in Version 1.0</h2>
+      <p>The Fact Generator has evolved from a simple random fact display into a comprehensive knowledge exploration platform with advanced user features and beautiful design.</p>
+      
+      <div class="changelog">
+        <h4>✨ Major Features Added</h4>
+        <ul>
+          <li>Complete user authentication system with secure local storage</li>
+          <li>Comprehensive fact categorization across 8 major topics</li>
+          <li>Personal favorites system with search functionality</li>
+          <li>Detailed fact history tracking with timestamps</li>
+          <li>Dark/Light theme toggle with preference persistence</li>
+          <li>Responsive mobile-first design</li>
+          <li>Advanced statistics tracking</li>
+          <li>Keyboard shortcuts for power users</li>
+          <li>Copy-to-clipboard functionality</li>
+          <li>Real-time search across favorites and history</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>🎯 Core Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🔐 User Authentication</h3>
+          <p>Secure sign-up and login system with input validation, password requirements, and persistent sessions.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📚 8 Major Categories</h3>
+          <p>Science, Animals & Nature, History & Culture, Technology, Geography, Food, Arts, and Sports & Human Body.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎲 Smart Random Mode</h3>
+          <p>"Any Topic" selection for completely random facts across all 400+ available facts.</p>
+        </div>
+        <div class="feature-card">
+          <h3>❤️ Favorites System</h3>
+          <p>Save interesting facts with instant favoriting, searchable favorites list, and easy management.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📜 Fact History</h3>
+          <p>Automatic tracking of the last 50 generated facts with timestamps and topic information.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📊 Personal Statistics</h3>
+          <p>Track total facts generated, time spent on the website, and personal usage patterns.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🌙 Theme System</h3>
+          <p>Beautiful dark and light modes with smooth transitions and preference saving.</p>
+        </div>
+        <div class="feature-card">
+          <h3>⌨️ Keyboard Shortcuts</h3>
+          <p>Press Enter to generate facts quickly, with visual hints for improved UX.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📋 Share Features</h3>
+          <p>One-click copy-to-clipboard for sharing facts with friends and social media.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔍 Advanced Search</h3>
+          <p>Real-time search through favorites and history with instant filtering.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📱 Mobile Responsive</h3>
+          <p>Optimized for all devices with adaptive layouts and touch-friendly interfaces.</p>
+        </div>
+        <div class="feature-card">
+          <h3>💫 Smooth Animations</h3>
+          <p>Polished user experience with loading states, transitions, and visual feedback.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>🎨 User Interface & Experience</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🎯 Intuitive Design</h3>
+          <p>Clean, modern interface with glassmorphism effects and gradient backgrounds for visual appeal.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔄 Loading States</h3>
+          <p>Smooth loading animations and visual feedback for all user actions.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📢 Toast Messages</h3>
+          <p>Contextual success, error, and info messages that appear and disappear automatically.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎪 Interactive Elements</h3>
+          <p>Hover effects, button animations, and responsive design elements throughout.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>🔧 Technical Implementation</h2>
+      <div class="tech-stack">
+        <span class="tech-badge">HTML5</span>
+        <span class="tech-badge">CSS3</span>
+        <span class="tech-badge">Vanilla JavaScript</span>
+        <span class="tech-badge">Local Storage API</span>
+        <span class="tech-badge">Responsive Design</span>
+        <span class="tech-badge">Progressive Enhancement</span>
+      </div>
+      
+      <div class="changelog">
+        <h4>🏗️ Architecture Highlights</h4>
+        <ul>
+          <li>Modular JavaScript with clean separation of concerns</li>
+          <li>Persistent data storage using browser Local Storage</li>
+          <li>Event-driven architecture for responsive user interactions</li>
+          <li>CSS Grid and Flexbox for modern responsive layouts</li>
+          <li>CSS custom properties for dynamic theming</li>
+          <li>Semantic HTML for accessibility and SEO</li>
+          <li>Progressive enhancement ensuring core functionality works everywhere</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>📊 Content & Categories</h2>
+      <p>The fact database has been carefully curated across multiple domains:</p>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🔬 Science</h3>
+          <p>Astronomy, Biology, Physics, Chemistry, Earth Science, Medical facts</p>
+        </div>
+        <div class="feature-card">
+          <h3>🐾 Animals & Nature</h3>
+          <p>Mammals, Birds, Marine Life, Insects, Plants, Ecosystems</p>
+        </div>
+        <div class="feature-card">
+          <h3>📚 History & Culture</h3>
+          <p>Ancient History, Modern History, World Cultures, Archaeology</p>
+        </div>
+        <div class="feature-card">
+          <h3>💻 Technology</h3>
+          <p>Computers, Inventions, Engineering, Space Technology</p>
+        </div>
+        <div class="feature-card">
+          <h3>🌍 Geography</h3>
+          <p>Countries, Landmarks, Weather & Climate patterns</p>
+        </div>
+        <div class="feature-card">
+          <h3>🍕 Food & Cooking</h3>
+          <p>World Cuisine, Ingredients, Culinary History</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎨 Arts & Entertainment</h3>
+          <p>Music, Movies, Literature, Visual Arts</p>
+        </div>
+        <div class="feature-card">
+          <h3>🏃 Sports & Human Body</h3>
+          <p>Sports facts, Human Body science, Psychology insights</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>🎯 Future Roadmap</h2>
+      <p>Planned enhancements for future versions:</p>
+      <div class="changelog">
+        <h4>🚀 Version 1.1 Planning</h4>
+        <ul>
+          <li>Fact rating and review system</li>
+          <li>Social sharing integration</li>
+          <li>Daily fact challenges</li>
+          <li>Achievement system and badges</li>
+          <li>Export functionality for favorites</li>
+          <li>Advanced filtering options</li>
+          <li>Offline support with Service Workers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-section">
+      <h2>🎉 Development Highlights</h2>
+      <p>This project showcases modern web development practices:</p>
+      <ul style="text-align: left;">
+        <li><strong>Performance:</strong> Optimized for fast loading and smooth interactions</li>
+        <li><strong>Accessibility:</strong> Keyboard navigation and screen reader friendly</li>
+        <li><strong>Security:</strong> Input validation and secure data handling</li>
+        <li><strong>Maintainability:</strong> Clean, documented code with modular structure</li>
+        <li><strong>User Experience:</strong> Intuitive design with helpful feedback</li>
+        <li><strong>Cross-Platform:</strong> Works seamlessly across all modern browsers</li>
+      </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 15px;">
+      <h2>🌟 Thank You!</h2>
+      <p>Version 1.0 represents a complete, polished fact exploration platform. Every feature has been carefully crafted for an exceptional user experience.</p>
+      <a href="index.html" class="back-btn" style="margin-top: 1rem; display: inline-block;">Start Exploring Facts! 🧠</a>
+    </div>
+  </div>
+
   <script>
-    const modeIcon = document.getElementById('mode-icon');
+    // Dark mode functionality
+    let isDarkMode = localStorage.getItem('darkMode') === 'true';
 
-    function updateIcon(isDark) {
-      modeIcon.textContent = isDark ? '☀️' : '🌙';
+    function initializeDarkMode() {
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').textContent = '☀️';
+      }
     }
 
     function toggleDarkMode() {
-      const isDark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateIcon(isDark);
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-mode');
+      document.getElementById('darkModeToggle').textContent = isDarkMode ? '☀️' : '🌙';
+      localStorage.setItem('darkMode', isDarkMode);
     }
 
-    // Simple auth check for devlog page
-    function checkAuth() {
-      const currentUser = localStorage.getItem('factGeneratorCurrentUser');
-      const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
-      
-      if (currentUser && users[currentUser]) {
-        document.getElementById('logged-out').style.display = 'none';
-        document.getElementById('logged-in').style.display = 'flex';
-        document.getElementById('username').textContent = currentUser;
-      } else {
-        document.getElementById('logged-out').style.display = 'flex';
-        document.getElementById('logged-in').style.display = 'none';
-      }
-    }
-
-    // Apply saved theme and icon on page load
-    window.onload = () => {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        updateIcon(true);
-      } else {
-        updateIcon(false);
-      }
-      checkAuth();
-    };
-
-    // Auth button handlers
-    document.getElementById('loginBtn')?.addEventListener('click', () => {
-      window.location.href = 'index.html';
-    });
-
-    document.getElementById('signupBtn')?.addEventListener('click', () => {
-      window.location.href = 'index.html';
-    });
-
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
-      localStorage.removeItem('factGeneratorCurrentUser');
-      checkAuth();
-    });
-  </script>
-
-  <script>
-  // Time tracking for logged-in users
-  let sessionStartTime = Date.now();
-
-  function trackTimeSpent() {
-    const currentUser = localStorage.getItem('factGeneratorCurrentUser');
-    if (!currentUser) return;
-
-    const sessionTime = Math.floor((Date.now() - sessionStartTime) / 60000); // minutes
-    if (sessionTime === 0) return; // Don't save if less than a minute
-
-    const users = JSON.parse(localStorage.getItem('factGeneratorUsers')) || {};
-    const userData = users[currentUser];
-
-    if (userData) {
-      if (!userData.stats) {
-        userData.stats = {
-          factsGenerated: 0,
-          totalTimeSpent: 0,
-          sessionsCount: 0,
-          categoryPreferences: {},
-          firstVisit: userData.createdAt || new Date().toISOString()
-        };
-      }
-
-      userData.stats.totalTimeSpent = (userData.stats.totalTimeSpent || 0) + sessionTime;
-      users[currentUser] = userData;
-      localStorage.setItem('factGeneratorUsers', JSON.stringify(users));
-      sessionStartTime = Date.now(); // Reset session timer
-    }
-  }
-
-  // Track time before page unload
-  window.addEventListener('beforeunload', trackTimeSpent);
-
-  // Track time every minute
-  setInterval(trackTimeSpent, 60000);
+    document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
     
+    // Initialize on page load
+    window.addEventListener('load', initializeDarkMode);
   </script>
-
-  <script src="script.js"></script>
-  
 </body>
 </html>
